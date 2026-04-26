@@ -1,9 +1,5 @@
-document.getElementById('play').addEventListener('click', 
-    function(){
-    const nom_jugador = prompt("Introdueix el teu nom:", "");
-    alert("Hola " + nom_jugador + "!\nComença la partida");
-    sessionStorage.removeItem('load');
-    window.location.assign("./html/game.html");
+document.getElementById('play').addEventListener('click', function(){
+    window.location.assign("./html/play.html");
 });
 
 document.getElementById('options').addEventListener('click', 
