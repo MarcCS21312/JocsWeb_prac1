@@ -21,6 +21,9 @@ var game = {
     ready: 0,
     lastCard: null,
     score: 200,
+    tempsTorn: 1000,
+    penal: 25,
+    mode: '1',
     pairs: 2,
     groupSize: 2,
     selected: [],
@@ -33,6 +36,7 @@ var game = {
         this.states[idx] = StateCard.DISABLE;
     },
     select: function(){
+        this.applyOptions();
         if (sessionStorage.load){ // Carreguem partida
             let toLoad = JSON.parse(sessionStorage.load);
             this.items = toLoad.items;
@@ -102,7 +106,7 @@ var game = {
             }
         }
         else {
-            this.score -= 25;
+            this.score -= this.penal;
             this.ready = 0;
             this.selected = [];
             setTimeout(function(){
@@ -112,7 +116,21 @@ var game = {
                     alert("Has perdut");
                     window.location.assign("../");
                 }
-            }, 1000);
+            }, this.tempsTorn);
+        }
+    },
+    applyOptions: function(){
+        var raw = localStorage.options;
+        if (!raw) return;
+        var o = JSON.parse(raw);
+        this.mode = o.mode || '1';
+        if (this.mode === '1'){
+            this.pairs     = parseInt(o.pairs)     || 2;
+            this.groupSize = parseInt(o.groupSize) || 2;
+            var d = o.difficulty || 'normal';
+            if (d === 'easy')   { this.score = 300; this.tempsTorn = 1500; this.penal = 15; }
+            if (d === 'normal') { this.score = 200; this.tempsTorn = 1000; this.penal = 25; }
+            if (d === 'hard')   { this.score = 120; this.tempsTorn =  600; this.penal = 40; }
         }
     },
     save: function(){
