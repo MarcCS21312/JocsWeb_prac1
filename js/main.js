@@ -1,6 +1,9 @@
 addEventListener('load', function() {
+    
     document.getElementById('play').addEventListener('click', 
-    function(){
+        function(){
+        const nom_jugador = prompt("Introdueix el teu nom:", "");
+        alert("Hola " + nom_jugador + "!\nComença la partida");
         sessionStorage.removeItem('load');
         window.location.assign("./html/game.html");
     });
@@ -10,7 +13,7 @@ addEventListener('load', function() {
         window.location.assign("./html/options.html");
     });
 
-    document.getElementById('saves').addEventListener('click', 
+    document.getElementById('saves').addEventListener('click',
     function(){
         let to_load = localStorage.save;
         fetch('../php/load.php', {
@@ -18,6 +21,7 @@ addEventListener('load', function() {
             body: JSON.stringify({}),
             headers: {"Content-type": "application/json; charset=UTF-8"}
         })
+
         .then(response => response.json())
         .then(json => to_load = (!json.error)?JSON.stringify(json.save): localStorage.save)
         .catch (err => {
@@ -31,10 +35,12 @@ addEventListener('load', function() {
         }
         sessionStorage.load = to_load;
         window.location.assign("./html/game.html");
-    });
 
+    });
+    
     document.getElementById('exit').addEventListener('click', 
-    function(){
+        function(){
         console.warn("No es pot sortir!");
     });
+    
 });

@@ -65,21 +65,30 @@ var game = {
             if (this.items[this.lastCard] === this.items[indx]){
                 this.pairs--;
                 this.states[this.lastCard] = this.states[indx] = StateCard.DONE;
+                this.lastCard = null;
                 if (this.pairs <= 0){
                     alert(`Has guanyat amb ${this.score} punts!!!!`);
                     window.location.assign("../");
                 }
             }
             else {
-                this.goBack(indx);
-                this.goBack(this.lastCard);
                 this.score -= 25;
-                if (this.score <= 0){
-                    alert ("Has perdut");
-                    window.location.assign("../");
-                }
+
+                var cartaPrevia = this.lastCard;
+                this.lastCard = null;
+                this.ready = 0;
+
+                setTimeout(function() {
+                    game.goBack(indx);
+                    game.goBack(cartaPrevia);
+                    game.ready = game.items.length;
+
+                    if (game.score <= 0){
+                        alert ("Has perdut");
+                        window.location.assign("../");
+                    }
+                }, 1000);
             }
-            this.lastCard = null;
         }
     },
     save: function(){
