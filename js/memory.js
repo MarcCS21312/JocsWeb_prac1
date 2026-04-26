@@ -99,22 +99,30 @@ var game = {
         var grup = this.selected.slice();
         var that = this;
 
-    if (iguals){
-        grup.forEach(function(idx){
-            that.states[idx] = StateCard.DONE;
-        });
-        this.pairs--;
-        this.selected = [];
-        if (this.pairs <= 0){
-            if (this.mode === '2'){
-                this.guardarPunts && this.guardarPunts(this.score, this.level);
-                this.level++;
-                alert("Nivell " + (this.level - 1) + " superat! Anem al " + this.level);
-                sessionStorage.setItem('mode2_level', this.level);
-                window.location.assign(window.location.href);
+        if (iguals){
+            grup.forEach(function(idx){
+                that.states[idx] = StateCard.DONE;
+            });
+            this.pairs--;
+            this.selected = [];
+
+            if (this.pairs <= 0){
+                // Petit delay perque la ultima carta es vegi girada abans de l'alert
+                setTimeout(function(){
+                    if (that.mode === '2'){
+                        that.guardarPunts && that.guardarPunts(that.score, that.level);
+                        that.level++;
+                        alert("Nivell " + (that.level - 1) + " superat! Anem al " + that.level);
+                        sessionStorage.setItem('mode2_level', that.level);
+                        window.location.assign(window.location.href);
+                    }
+                    else {
+                        alert("Has guanyat amb " + that.score + " punts!!!!");
+                        window.location.assign("../");
+                    }
+                }, 400);
             }
         }
-    }
         else {
             this.score -= this.penal;
             this.ready = 0;
@@ -123,6 +131,9 @@ var game = {
                 grup.forEach(function(idx){ that.goBack(idx); });
                 that.ready = that.items.length;
                 if (that.score <= 0){
+                    if (that.mode === '2'){
+                        that.guardarPunts(0, that.level);
+                    }
                     alert("Has perdut");
                     window.location.assign("../");
                 }
@@ -156,6 +167,20 @@ var game = {
             this.penal     = Math.min(80, 15 + n * 5);
             this.score     = 200 + n * 20;
         }
+    },
+    guardarPunts: function(score, level){
+        var alias = localStorage.alias || "anonim";
+        var raw = localStorage.ranking;
+        var llista = raw ? JSON.parse(raw) : [];
+        llista.push({
+            alias: alias,
+            level: level,
+            punts: score,
+            data: new Date().toLocaleString()
+        });
+        llista.sort(function(a, b){ return b.punts - a.punts; });
+        if (llista.length > 50) llista = llista.slice(0, 50);
+        localStorage.ranking = JSON.stringify(llista);
     },
     save: function(){
         if (this.partidaId === null){
