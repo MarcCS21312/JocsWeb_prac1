@@ -22,19 +22,31 @@ function start(){
     selectCards();
     cards = gameItems.map((c)=>{return {texture:c}});
     loadCardResource("../resources/back.png");
-    cards.forEach((card, indx) => {
+
+    var total = cards.length;
+    var cols = Math.ceil(Math.sqrt(total));
+    var marge = 10;
+    var totalW = cols * (c_w + marge) - marge;
+    var rows = Math.ceil(total / cols);
+    var totalH = rows * (c_h + marge) - marge;
+    var x0 = (800 - totalW) / 2;
+    var y0 = (600 - totalH) / 2;
+
+    cards.forEach(function(card, indx){
         loadCardResource(card.texture);
-        initCard(val => card.texture = val);
+        initCard(function(val){ card.texture = val; });
+        var f = Math.floor(indx / cols);
+        var c = indx % cols;
         card.position = {
-            xMin: 2+100*indx,
-            xMax: 2+100*indx + c_w,
-            yMin: 0,
-            yMax: c_h
-        }
+            xMin: x0 + c * (c_w + marge),
+            xMax: x0 + c * (c_w + marge) + c_w,
+            yMin: y0 + f * (c_h + marge),
+            yMax: y0 + f * (c_h + marge) + c_h
+        };
         card.onClick = function(x, y){
             return x >= this.position.xMin && x <= this.position.xMax &&
-                    y >= this.position.yMin && y <= this.position.yMax;
-        }
+                y >= this.position.yMin && y <= this.position.yMax;
+        };
     });
     // Vincular events
     game.on('click', function(e){

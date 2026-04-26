@@ -25,7 +25,7 @@ pintar();
 $('#llista').on('click', '.carregar', function(){
     var k = $(this).attr('data-key');
     sessionStorage.load = localStorage[k];
-    window.location.assign("./game.html");
+    window.location.assign("./canvasgame.html");
 });
 
 $('#tornar').on('click', function(){
