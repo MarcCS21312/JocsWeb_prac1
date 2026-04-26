@@ -1,0 +1,41 @@
+<svg version="1.1"
+    baseProfile="full"
+    width="260" height="310"
+    xmlns="http://www.w3.org/2000/svg">
+
+    <style>
+        .carta {
+            fill: lightyellow;
+            stroke: black;
+            stroke-width: 5;
+        }
+        .lletra-m {
+            fill: none;
+            stroke: navy;
+            stroke-width: 13;
+            stroke-linecap: square;
+        }
+        .palo-diamante {
+            fill: darkred;
+        }
+    </style>
+
+    <rect class="carta"
+        x="5" y="5"
+        width="250" height="300" 
+        rx="15" ry="15"
+    />
+
+    <path class="lletra-m" 
+        d="M 68 208 L 72 92 L 128 155 L 180 85 L 185 205"   
+    />
+
+    <path class="palo-diamante" 
+        d="M 30 30 L 48 52 L 28 75 L 12 48 Z" 
+    />
+    
+    <path class="palo-diamante" 
+        d="M 230 240 L 248 262 L 228 285 L 212 258 Z"            
+    />  
+
+</svg>

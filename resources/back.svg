@@ -1,0 +1,37 @@
+<svg version="1.1"
+    baseProfile="full"
+    width="260" height="310"
+    xmlns="http://www.w3.org/2000/svg">
+
+    <style>
+        .carta {
+            fill: #2a3d5c;
+            stroke: black;
+            stroke-width: 5;
+        }
+        .decoracio {
+            fill: none;
+            stroke: #7fb3d9;
+            stroke-width: 6;
+        }
+    </style>
+
+    <rect class="carta"
+        x="5" y="5"
+        width="250" height="300" 
+        rx="15" ry="15"
+    />
+
+    <path class="decoracio" 
+        d="M 30 50 L 230 260"   
+    />
+
+    <path class="decoracio" 
+        d="M 230 50 L 30 260"   
+    />
+
+    <circle class="decoracio"
+        cx="130" cy="155" r="40"
+    />
+
+</svg>
