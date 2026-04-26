@@ -17,6 +17,11 @@ El Memory web amb 2 modes de joc, opcions configurables,sistema de save/load i r
   
 - localStorage per opcions, partides desades i ranking
 
+- Multi-save: cada partida te id unic "p_<timestamp>" per poder guardar-ne moltes alhora.
+
+- 6 cartes SVG programades a ma amb <style> intern (classes .carta, .lletra-m, .palo-X) i un revers diferent.
+
+- Canvas: les cartes es distribueixen en un grid quadrat centrat per acceptar fins a 16+ cartes (Mode 2 alt).
 
 ## Conclusions i problemes trobats
 - El merge amb la base nova del repositori va causar conflictes, i intentant resoldre'ls vaig estar a punt de perdre canvis de la P2. Per sort encara no havia pujat al remot i vaig poder recuperar-ho.
