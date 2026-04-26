@@ -2,6 +2,10 @@ document.getElementById('play').addEventListener('click', function(){
     window.location.assign("./html/play.html");
 });
 
+document.getElementById('scores').addEventListener('click', function(){
+    window.location.assign("./html/scores.html");
+});
+
 document.getElementById('options').addEventListener('click', 
 function(){
     window.location.assign("./html/options.html");
