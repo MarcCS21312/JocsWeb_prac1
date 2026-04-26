@@ -22,6 +22,8 @@ var game = {
     lastCard: null,
     score: 200,
     pairs: 2,
+    groupSize: 2,
+    selected: [],
     goBack: function(idx){
         this.setValue && this.setValue[idx](back);
         this.states[idx] = StateCard.ENABLE;
@@ -39,13 +41,17 @@ var game = {
             this.score = toLoad.score;
             this.pairs = toLoad.pairs;
         }
-        else{ // Nova partida
-            this.items = resources.slice();          
-            shuffe(this.items);                      
-            this.items = this.items.slice(0, this.pairs); 
-            this.items = this.items.concat(this.items);        
+        else { // Nova partida
+            this.items = resources.slice();
+            shuffe(this.items);
+            this.items = this.items.slice(0, this.pairs);
+            var base = this.items.slice();
+            for (var i = 1; i < this.groupSize; i++){
+                this.items = this.items.concat(base);
+            }
             shuffe(this.items);
             this.states = new Array(this.items.length);
+            this.selected = [];
         }
     },
     start: function(){
@@ -63,37 +69,50 @@ var game = {
         });
     },
     click: function(indx){
-        if (this.states[indx] !== StateCard.ENABLE || this.ready < this.items.length) return;
+        if (this.states[indx] !== StateCard.ENABLE ||
+            this.ready < this.items.length) return;
+        if (this.selected.indexOf(indx) !== -1) return;
+
         this.goFront(indx);
-        if (this.lastCard === null) this.lastCard = indx; // Primera carta clicada
-        else{ // Teníem carta prèvia
-            if (this.items[this.lastCard] === this.items[indx]){
-                this.pairs--;
-                this.states[this.lastCard] = this.states[indx] = StateCard.DONE;
-                this.lastCard = null;
-                if (this.pairs <= 0){
-                    alert(`Has guanyat amb ${this.score} punts!!!!`);
+        this.selected.push(indx);
+
+        if (this.selected.length < this.groupSize) return;
+
+        var primera = this.items[this.selected[0]];
+        var iguals = true;
+        for (var i = 1; i < this.selected.length; i++){
+            if (this.items[this.selected[i]] !== primera){
+                iguals = false;
+                break;
+            }
+        }
+
+        var grup = this.selected.slice();
+        var that = this;
+
+        if (iguals){
+            grup.forEach(function(idx){
+                that.states[idx] = StateCard.DONE;
+            });
+            this.pairs--;
+            this.selected = [];
+            if (this.pairs <= 0){
+                alert("Has guanyat amb " + this.score + " punts!!!!");
+                window.location.assign("../");
+            }
+        }
+        else {
+            this.score -= 25;
+            this.ready = 0;
+            this.selected = [];
+            setTimeout(function(){
+                grup.forEach(function(idx){ that.goBack(idx); });
+                that.ready = that.items.length;
+                if (that.score <= 0){
+                    alert("Has perdut");
                     window.location.assign("../");
                 }
-            }
-            else {
-                this.score -= 25;
-
-                var cartaPrevia = this.lastCard;
-                this.lastCard = null;
-                this.ready = 0;
-
-                setTimeout(function() {
-                    game.goBack(indx);
-                    game.goBack(cartaPrevia);
-                    game.ready = game.items.length;
-
-                    if (game.score <= 0){
-                        alert ("Has perdut");
-                        window.location.assign("../");
-                    }
-                }, 1000);
-            }
+            }, 1000);
         }
     },
     save: function(){
