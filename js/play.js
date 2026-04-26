@@ -12,6 +12,7 @@ function entrar(mode){
     var nom = prompt("Introdueix el teu nom:", "");
     localStorage.alias = nom;
     sessionStorage.removeItem('load');
+    sessionStorage.removeItem('mode2_level');
     window.location.assign("./game.html");
 }
 

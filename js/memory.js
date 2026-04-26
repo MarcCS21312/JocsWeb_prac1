@@ -16,6 +16,8 @@ const StateCard = Object.freeze({
 
 var game = {
     partidaId: null,
+    level: 1,
+    notifyReset: null,
     items: [],
     states: [],
     setValue: null,
@@ -97,17 +99,22 @@ var game = {
         var grup = this.selected.slice();
         var that = this;
 
-        if (iguals){
-            grup.forEach(function(idx){
-                that.states[idx] = StateCard.DONE;
-            });
-            this.pairs--;
-            this.selected = [];
-            if (this.pairs <= 0){
-                alert("Has guanyat amb " + this.score + " punts!!!!");
-                window.location.assign("../");
+    if (iguals){
+        grup.forEach(function(idx){
+            that.states[idx] = StateCard.DONE;
+        });
+        this.pairs--;
+        this.selected = [];
+        if (this.pairs <= 0){
+            if (this.mode === '2'){
+                this.guardarPunts && this.guardarPunts(this.score, this.level);
+                this.level++;
+                alert("Nivell " + (this.level - 1) + " superat! Anem al " + this.level);
+                sessionStorage.setItem('mode2_level', this.level);
+                window.location.assign(window.location.href);
             }
         }
+    }
         else {
             this.score -= this.penal;
             this.ready = 0;
@@ -134,6 +141,20 @@ var game = {
             if (d === 'easy')   { this.score = 300; this.tempsTorn = 1500; this.penal = 15; }
             if (d === 'normal') { this.score = 200; this.tempsTorn = 1000; this.penal = 25; }
             if (d === 'hard')   { this.score = 120; this.tempsTorn =  600; this.penal = 40; }
+        }
+        if (this.mode === '2'){
+            var saved = sessionStorage.getItem('mode2_level');
+            if (saved) this.level = parseInt(saved);
+            
+            var iniN = parseInt(o.dif2) || 1;
+            var n = this.level + iniN - 1;
+            this.pairs     = Math.min(6, 1 + n);
+            if      (n <= 5) this.groupSize = 2;
+            else if (n <= 9) this.groupSize = 3;
+            else             this.groupSize = 4;
+            this.tempsTorn = Math.max(300, 1500 - n * 80);
+            this.penal     = Math.min(80, 15 + n * 5);
+            this.score     = 200 + n * 20;
         }
     },
     save: function(){
