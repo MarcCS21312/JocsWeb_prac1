@@ -15,6 +15,7 @@ const StateCard = Object.freeze({
 });
 
 var game = {
+    partidaId: null,
     items: [],
     states: [],
     setValue: null,
@@ -44,6 +45,8 @@ var game = {
             this.lastCard = toLoad.lastCard;
             this.score = toLoad.score;
             this.pairs = toLoad.pairs;
+            this.groupSize = toLoad.groupSize || 2;
+            this.partidaId = toLoad.partidaId || null;
         }
         else { // Nova partida
             this.items = resources.slice();
@@ -134,26 +137,22 @@ var game = {
         }
     },
     save: function(){
+        if (this.partidaId === null){
+            this.partidaId = "p_" + Date.now();
+        }
         let to_save = JSON.stringify({
+            partidaId: this.partidaId,
             items: this.items,
             states: this.states,
             lastCard: this.lastCard,
             score: this.score,
-            pairs: this.pairs
+            pairs: this.pairs,
+            groupSize: this.groupSize,
+            alias: localStorage.alias || "anonim",
+            data: new Date().toLocaleString()
         });
-        let ret = false;
-        fetch('../php/save.php', {
-            method: "POST",
-            body: to_save,
-            headers: {"Content-type": "application/json; charset=UTF-8"}
-        })
-        .then(response => ret = JSON.parse(response))
-        .catch (err => console.error(err));
-
-        if (!ret) {
-            console.warn("La partida s'ha guardat en local.");
-            localStorage.save = to_save;
-        }
+        localStorage["save_" + this.partidaId] = to_save;
+        alert("Partida desada");
         window.location.assign("../");
     }
 }
