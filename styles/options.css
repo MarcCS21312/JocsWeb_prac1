@@ -32,8 +32,3 @@ input, select {
     border-radius: 5px;
     border: 1px solid #ccc;
 }
-
-.botons-container {
-    display: flex;
-    gap: 15px;
-}

@@ -21,7 +21,7 @@ if (canvas){
 function start(){
     selectCards();
     cards = gameItems.map((c)=>{return {texture:c}});
-    loadCardResource("../resources/back.png");
+    loadCardResource("../resources/back.svg");
 
     var total = cards.length;
     var cols = Math.ceil(Math.sqrt(total));
@@ -125,3 +125,10 @@ function checkInput(){
     e_click.click = key = false;
 }
 
+$('#tornar').on('click', function(){
+    window.location.assign("../");
+});
+
+$('#save').on('click', function(){
+    saveGame();
+});

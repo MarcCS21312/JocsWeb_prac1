@@ -17,3 +17,7 @@ gameItems.forEach(function (value, idx)
 startGame();
 
 $('#save').on('click', ()=>saveGame());
+
+$('#tornar').on('click', function(){
+    window.location.assign("../");
+});

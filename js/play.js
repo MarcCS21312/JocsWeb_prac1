@@ -19,5 +19,5 @@ function entrar(mode){
 $('#mode1').on('click', function(){ entrar('1'); });
 $('#mode2').on('click', function(){ entrar('2'); });
 $('#tornar').on('click', function(){
-    window.location.assign("./canvasgame.html");
+    window.location.assign("../");
 });

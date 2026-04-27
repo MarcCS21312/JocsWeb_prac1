@@ -1,0 +1,34 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    font-family: sans-serif;
+}
+
+#ranking, #llista {
+    display: grid;
+    gap: 12px; 
+    background-color: rgba(255, 255, 255, 0.4); 
+    padding: 30px;
+    border-radius: 15px;
+    width: fit-content;
+    min-width: 350px;
+    list-style-position: inside;
+    margin: 0;
+}
+
+#ranking li, #llista li {
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#ranking li:hover, #llista li:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: scale(1.02);
+}

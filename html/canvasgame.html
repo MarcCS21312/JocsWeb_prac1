@@ -2,11 +2,18 @@
 <html>
 	<head>
         <script src="../js/canvasgame.js" type="module"></script>
+		<link rel="stylesheet" href="../styles/main.css">
+		<link rel="stylesheet" href="../styles/game.css">
 		<title> Memory - Pantalla </title>
 	</head>
 	<body>
-		<h1>Partida</h1>
+		<canvas id="game"> </canvas>
+		<h1 id="title">Partida</h1>
         <canvas id="game"> </canvas>
+		<div class="botons-container">
+			<button id="save" class="center">Guardar</button>
+			<button id="tornar" class="center">Tornar</button>	
+		</div>
 	</body>
 </html>
 

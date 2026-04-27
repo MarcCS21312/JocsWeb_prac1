@@ -23,6 +23,12 @@ button.center:active{
 	background-color:cadetblue;
 }
 
+.botons-container {
+	display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+}
 
 #title{
 	font-size: 50pt;

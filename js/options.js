@@ -94,3 +94,7 @@ $('#apply').on('click', function(){
     options.applyChanges();
     location.assign("../");
 });
+
+$('#tornar').on('click', function(){
+    window.location.assign("../");
+});

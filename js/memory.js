@@ -44,11 +44,18 @@ var game = {
             let toLoad = JSON.parse(sessionStorage.load);
             this.items = toLoad.items;
             this.states = toLoad.states;
+            for(let i=0; i<this.states.length; i++){
+                if(this.states[i] === StateCard.DISABLE){
+                    this.states[i] = StateCard.ENABLE;
+                }
+            }
             this.lastCard = toLoad.lastCard;
             this.score = toLoad.score;
             this.pairs = toLoad.pairs;
             this.groupSize = toLoad.groupSize || 2;
             this.partidaId = toLoad.partidaId || null;
+            this.mode = toLoad.mode || '1';
+            sessionStorage.removeItem('load');
         }
         else { // Nova partida
             this.items = resources.slice();
@@ -107,7 +114,6 @@ var game = {
             this.selected = [];
 
             if (this.pairs <= 0){
-                // Petit delay perque la ultima carta es vegi girada abans de l'alert
                 setTimeout(function(){
                     if (that.mode === '2'){
                         that.guardarPunts && that.guardarPunts(that.score, that.level);
@@ -117,6 +123,9 @@ var game = {
                         window.location.assign(window.location.href);
                     }
                     else {
+                        if (that.partidaId) {
+                            localStorage.removeItem("save_" + that.partidaId);
+                        }
                         alert("Has guanyat amb " + that.score + " punts!!!!");
                         window.location.assign("../");
                     }
@@ -133,6 +142,9 @@ var game = {
                 if (that.score <= 0){
                     if (that.mode === '2'){
                         that.guardarPunts(0, that.level);
+                    }
+                    if (that.partidaId) {
+                        localStorage.removeItem("save_" + that.partidaId);
                     }
                     alert("Has perdut");
                     window.location.assign("../");
@@ -188,6 +200,7 @@ var game = {
         }
         let to_save = JSON.stringify({
             partidaId: this.partidaId,
+            mode: this.mode,
             items: this.items,
             states: this.states,
             lastCard: this.lastCard,
