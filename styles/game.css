@@ -1,4 +1,4 @@
-#game {
+div#game {
     display: grid;
     grid-template-columns: repeat(4, 100px);
     justify-content: center;
@@ -7,6 +7,13 @@
     margin-left: auto;  
     margin-right: auto;
     width: fit-content; 
+}
+
+canvas#game {
+    display: block;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #game img {
