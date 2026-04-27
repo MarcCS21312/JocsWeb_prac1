@@ -11,8 +11,7 @@ function pintar(){
         var d = JSON.parse(localStorage[k]);
         var txt = d.alias + " - " + d.data + " - " + d.score + " punts";
         llista.append(
-            '<li><button class="carregar" data-key="' + k + '">'
-            + txt + '</button></li>'
+            '<li class="carregar" data-key="' + k + '">' + txt + '</li>'
         );
     }
     if (trobades === 0){
